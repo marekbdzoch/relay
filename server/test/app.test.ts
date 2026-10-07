@@ -28,6 +28,9 @@ describe('web client & app plumbing', () => {
     const root = await api(app).get('/');
     assert.equal(root.status, 200);
     assert.match(root.body, /<title>Relay<\/title>/);
+    // the page must be revalidated after every deploy
+    assert.equal(root.headers['cache-control'], 'no-cache');
+    assert.equal((await api(app).get('/index.html')).headers['cache-control'], 'no-cache');
     const deep = await api(app).get('/c/C123?x=1');
     assert.equal(deep.status, 200);
     assert.equal(deep.headers['cache-control'], 'no-cache');

@@ -76,6 +76,8 @@ export async function buildApp(opts: BuildOptions = {}) {
       // them: content-hashed build assets need their long-lived cache header here
       setHeaders: (reply, filePath) => {
         if (filePath.startsWith(assetsDir)) reply.header('cache-control', 'public, max-age=31536000, immutable');
+        // the page itself must always be revalidated, or browsers keep running the previous release after a deploy
+        else if (filePath.endsWith('.html') || filePath.endsWith('.webmanifest')) reply.header('cache-control', 'no-cache');
       },
     });
     // re-read index.html when it changes, so rebuilding the client under a running server doesn't serve a page that
