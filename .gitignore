@@ -1,0 +1,40 @@
+node_modules
+dist
+data
+*.log
+.DS_Store
+.env
+coverage
+
+# Test and coverage output
+coverage/
+**/coverage/
+playwright-report/
+test-results/
+blob-report/
+playwright/.cache/
+*.lcov
+.nyc_output/
+
+# SQLite side files
+*.db
+*.db-wal
+*.db-shm
+*.db-journal
+
+# Environment and editor files
+.env.*
+!.env.example
+.vscode/
+.idea/
+*.swp
+npm-debug.log*
+
+# Playwright e2e
+e2e/.data*
+playwright-report/
+test-results/
+e2e/.web-dist/
+
+# Local tooling
+.claude/

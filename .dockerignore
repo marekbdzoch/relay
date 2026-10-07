@@ -1,0 +1,26 @@
+node_modules
+**/node_modules
+web/dist
+data
+.git
+.claude
+*.log
+.env
+
+# Not needed in the image
+.github
+docs
+e2e
+server/test
+web/src/test
+**/*.test.ts
+**/*.test.tsx
+coverage
+**/coverage
+playwright-report
+test-results
+*.md
+.editorconfig
+.prettierrc.json
+.prettierignore
+.env.*

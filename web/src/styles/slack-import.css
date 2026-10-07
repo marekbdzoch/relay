@@ -1,0 +1,199 @@
+/* Slack export import (components/SlackImport.tsx) */
+.slack-import {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.slack-import-card {
+  background: var(--surface-1);
+  border-radius: 20px;
+  padding: 16px 20px;
+}
+.slack-import-guide {
+  background: var(--surface-1);
+  border-radius: 20px;
+  padding: 18px 20px;
+}
+.slack-import-guide ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.slack-import-guide li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  line-height: 1.45;
+}
+.slack-import-step {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-container);
+  color: var(--on-accent-container);
+  font-weight: 700;
+  font-size: 13px;
+}
+.slack-import-note {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin: 16px 0 0;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: var(--bg);
+  color: var(--text-2);
+  font-size: 13px;
+  line-height: 1.45;
+}
+.slack-import-note .icon {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: var(--accent);
+}
+.slack-import-drop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 140px;
+  padding: 20px;
+  border: 2px dashed var(--border-strong);
+  border-radius: 20px;
+  color: var(--text);
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.1s, border-color 0.1s;
+}
+.slack-import-drop > .icon {
+  color: var(--accent);
+}
+.slack-import-drop:hover,
+.slack-import-drop:focus-visible,
+.slack-import-drop.dragging {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  outline: none;
+}
+.slack-import-drop.has-file {
+  flex-direction: row;
+  gap: 14px;
+  min-height: 0;
+  border-style: solid;
+  border-color: var(--accent);
+  background: var(--bg-subtle);
+}
+.slack-import-file {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  flex: 1;
+  text-align: left;
+}
+.slack-import-file b {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.slack-import-options {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.slack-import-options .field-help {
+  margin: 6px 0 0;
+}
+.slack-import-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.slack-import-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: var(--danger);
+}
+.slack-import-status-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.slack-import-status-head h4 {
+  margin: 0 0 2px;
+  font-size: 16px;
+}
+.slack-import-status-head p {
+  margin: 0;
+}
+.slack-import-status-head > span {
+  flex: 1;
+}
+.slack-import-status.done .slack-import-status-head > .icon {
+  color: var(--success);
+}
+.slack-import-status.error .slack-import-status-head > .icon {
+  color: var(--danger);
+}
+.slack-import-bar {
+  height: 8px;
+  margin: 14px 0 4px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  overflow: hidden;
+}
+.slack-import-bar > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+.slack-import-counts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  gap: 8px;
+  margin-top: 14px;
+}
+.slack-import-count {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 12px;
+  border-radius: 16px;
+  background: var(--bg);
+}
+.slack-import-count b {
+  font-size: 18px;
+}
+.slack-import-count span {
+  color: var(--text-2);
+  font-size: 12px;
+}
+.slack-import-warnings summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.slack-import-warnings summary .icon {
+  color: var(--warning);
+}
+.slack-import-warnings ul {
+  margin: 10px 0 0;
+  padding-left: 20px;
+  color: var(--text-2);
+  font-size: 13px;
+  line-height: 1.5;
+}

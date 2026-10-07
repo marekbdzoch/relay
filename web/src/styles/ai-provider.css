@@ -1,0 +1,127 @@
+/* AI provider setup (Workspace settings → AI agents, onboarding) */
+
+.ai-setup {
+  display: flex;
+  flex-direction: column;
+}
+.ai-provider-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+  margin: 4px 0 20px;
+}
+.ai-provider-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface-1);
+  cursor: pointer;
+  transition:
+    background 0.08s,
+    border-color 0.08s;
+}
+.ai-provider-card:hover {
+  background: var(--surface-2);
+}
+.ai-provider-card.active {
+  background: var(--accent-container);
+  border-color: var(--accent);
+  color: var(--on-accent-container);
+}
+.ai-provider-card.disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.ai-provider-card input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.ai-provider-card:focus-within {
+  box-shadow:
+    0 0 0 1px var(--focus),
+    0 0 0 4px var(--accent-soft);
+}
+.ai-provider-name {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 14.5px;
+}
+.ai-provider-desc {
+  font-size: 13px;
+  color: var(--text-2);
+}
+.ai-provider-card.active .ai-provider-desc {
+  color: inherit;
+  opacity: 0.85;
+}
+.ai-provider-badge {
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 700;
+}
+.ai-provider-badge.ok {
+  color: var(--success);
+}
+.ai-provider-feature {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--text-2);
+}
+.ai-provider-card.active .ai-provider-feature {
+  color: inherit;
+}
+.ai-setup .mono-input {
+  font-family: var(--mono);
+  font-size: 13px;
+}
+.ai-key-help {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+}
+.ai-test-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.ai-test-result {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 13.5px;
+  font-weight: 600;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.ai-test-result .icon {
+  flex: none;
+  margin-top: 1px;
+}
+.ai-test-result.ok {
+  color: var(--success);
+}
+.ai-test-result.error {
+  color: var(--danger);
+}
+.ai-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}

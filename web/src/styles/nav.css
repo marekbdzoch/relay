@@ -1,0 +1,238 @@
+/* ---------- left column (workspace header, section tabs, pane, footer) ---------- */
+
+.workspace {
+  margin: 0 8px 8px 0;
+}
+
+.left-col {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex-shrink: 0;
+  background: transparent;
+  color: var(--sb-text);
+}
+.left-pane {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-head {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 8px 8px 10px;
+  flex-shrink: 0;
+}
+.ws-name {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px 6px 6px;
+  border-radius: 999px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--sb-text-strong);
+  letter-spacing: -0.01em;
+}
+.ws-name span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ws-name .ws-icon {
+  border-radius: 10px;
+}
+.ws-name:hover {
+  background: var(--sb-hover);
+}
+.ws-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.ws-icon-letter {
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 700;
+}
+.nav-icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sb-text);
+  flex-shrink: 0;
+}
+.nav-icon-btn:hover {
+  background: var(--sb-hover);
+  color: var(--sb-text-strong);
+}
+.nav-icon-btn.compose {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  margin-left: 4px;
+  background: var(--accent-container);
+  color: var(--on-accent-container);
+}
+.nav-icon-btn.compose:hover {
+  background: color-mix(in srgb, var(--accent) 22%, var(--accent-container));
+  color: var(--on-accent-container);
+}
+
+.nav-tabs {
+  display: flex;
+  gap: 2px;
+  margin: 0 10px 8px;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  flex-shrink: 0;
+}
+.nav-tabs > .tip {
+  flex: 1;
+  display: flex;
+}
+.nav-tab {
+  position: relative;
+  flex: 1;
+  height: 34px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sb-text);
+  transition: background 0.15s, color 0.15s;
+}
+.nav-tab:hover {
+  color: var(--sb-text-strong);
+  background: var(--sb-hover);
+}
+.nav-tab.active {
+  background: var(--bg);
+  color: var(--accent);
+  box-shadow: 0 1px 3px color-mix(in srgb, var(--text) 16%, transparent);
+}
+.nav-badge {
+  position: absolute;
+  top: -2px;
+  right: 2px;
+  min-width: 16px;
+  height: 16px;
+  font-size: 10px;
+  padding: 0 4px;
+  box-shadow: 0 0 0 2px var(--surface-2);
+}
+.nav-dot {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.nav-more-menu {
+  min-width: 220px;
+}
+
+.nav-foot {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 4px 10px 0;
+  padding: 8px 0 2px;
+  border-top: 1px solid var(--sb-line);
+  flex-shrink: 0;
+}
+.nav-me {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px 6px 6px;
+  border-radius: 999px;
+  text-align: left;
+}
+.nav-me:hover {
+  background: var(--sb-hover);
+}
+.nav-me .avatar-presence {
+  box-shadow: 0 0 0 2px var(--sidebar-bg);
+}
+.nav-me .presence-dot.away {
+  background: var(--sidebar-bg);
+  border-color: var(--sb-text);
+}
+.nav-me-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.25;
+}
+.nav-me-text b {
+  font-size: 13.5px;
+  color: var(--sb-text-strong);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nav-me-status {
+  font-size: 12px;
+  color: var(--sb-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nav-create {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent);
+  color: var(--on-accent);
+  flex-shrink: 0;
+}
+.nav-create:hover {
+  background: var(--accent-hover);
+}
+.left-col .huddle-bar {
+  margin: 6px 10px;
+}
+
+/* the sidebar pane (home) */
+.sidebar-pane .sb-find {
+  margin-top: 0;
+}
+
+@media (max-width: 768px) {
+  .left-col {
+    width: 100% !important;
+    border-right: none;
+  }
+  .client.mobile-main .left-col {
+    display: none;
+  }
+  .nav-tabs,
+  .nav-foot {
+    display: none;
+  }
+  .workspace {
+    margin: 0;
+  }
+}

@@ -1,0 +1,51 @@
+# Relay – self-hosted team chat
+# 1) cp .env.example .env  and set DOMAIN
+# 2) docker compose up -d
+# 3) open https://$DOMAIN and create your workspace
+services:
+  relay:
+    build: .
+    image: relay:latest
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      PUBLIC_URL: https://${DOMAIN}
+    volumes:
+      - relay-data:/data
+    expose:
+      - "3000"
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on: [relay]
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      DOMAIN: ${DOMAIN}
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+
+  # Optional TURN server – makes huddles (calls) work behind strict NATs / corporate firewalls.
+  # Enable with: docker compose --profile turn up -d   (and set TURN_* in .env)
+  coturn:
+    image: coturn/coturn:4.6
+    profiles: [turn]
+    restart: unless-stopped
+    network_mode: host
+    command: >
+      -n --log-file=stdout
+      --listening-port=3478 --fingerprint --lt-cred-mech
+      --realm=${DOMAIN}
+      --user=${TURN_USERNAME}:${TURN_PASSWORD}
+      --min-port=49160 --max-port=49200
+      --no-cli --no-tls --no-dtls
+
+volumes:
+  relay-data:
+  caddy-data:
+  caddy-config:

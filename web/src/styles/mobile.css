@@ -1,0 +1,153 @@
+/* Narrow screens: Slack-mobile-like layout (list OR conversation, bottom tab bar). */
+@media (max-width: 768px) {
+  .topbar {
+    grid-template-columns: 1fr 40px;
+    gap: 8px;
+    padding: 0 8px;
+    padding-top: env(safe-area-inset-top);
+    height: calc(44px + env(safe-area-inset-top));
+  }
+  .topbar-nav {
+    display: none;
+  }
+  .topbar-search-wrap {
+    margin-left: 0;
+  }
+  .search-box {
+    left: -4px;
+    right: -44px;
+  }
+  .workspace {
+    margin: 0;
+    border-radius: 0;
+  }
+  .left-col,
+  .left-col .sidebar {
+    width: 100% !important;
+  }
+  .client.mobile-main .left-col {
+    display: none;
+  }
+  .client.mobile-list .main-col {
+    display: none;
+  }
+  .resize-handle {
+    display: none;
+  }
+  .right-panel {
+    position: fixed;
+    inset: 0;
+    width: 100% !important;
+    z-index: 500;
+    padding-top: env(safe-area-inset-top);
+  }
+  .ch-back {
+    display: inline-flex;
+    width: 32px;
+    height: 32px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    color: var(--text-2);
+    flex-shrink: 0;
+    margin-left: -8px;
+  }
+  .ch-topic,
+  .ch-members,
+  .ch-tabs {
+    display: none;
+  }
+  .msg {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .msg-actions {
+    right: 8px;
+  }
+  .composer-wrap {
+    padding: 0 8px 8px;
+  }
+  .composer-format {
+    display: none;
+  }
+  .list-pane {
+    width: 100%;
+  }
+  .tabbar {
+    display: flex;
+    justify-content: space-around;
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    padding: 4px 0 calc(4px + env(safe-area-inset-bottom));
+    flex-shrink: 0;
+  }
+  .client.mobile-main .tabbar {
+    display: none;
+  }
+  .tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-2);
+    padding: 4px 10px;
+  }
+  .tab.active {
+    color: var(--text);
+  }
+  .tab-icon {
+    position: relative;
+    display: flex;
+  }
+  .tab .nav-badge {
+    position: absolute;
+    top: -4px;
+    right: -10px;
+    margin: 0;
+    box-shadow: 0 0 0 2px var(--bg);
+  }
+  .modal-backdrop {
+    padding: 0;
+    align-items: flex-end;
+  }
+  .modal {
+    width: 100% !important;
+    max-height: 92dvh;
+    border-radius: 14px 14px 0 0;
+  }
+  .prefs-body {
+    flex-direction: column;
+  }
+  .prefs-nav {
+    width: 100%;
+    display: flex;
+    overflow-x: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 8px;
+  }
+  .prefs-nav button {
+    white-space: nowrap;
+    width: auto;
+  }
+  .profile-edit {
+    flex-direction: column-reverse;
+  }
+  .huddle-screens,
+  .huddle-screens.expanded {
+    left: 0;
+    right: 0;
+    top: auto;
+    bottom: 0;
+    width: 100%;
+    border-radius: 12px 12px 0 0;
+  }
+  .admin-table {
+    font-size: 12px;
+  }
+  .auth-card h1 {
+    font-size: 30px;
+  }
+}

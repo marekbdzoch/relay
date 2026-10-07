@@ -1,0 +1,19 @@
+# dependencies and build output
+node_modules
+**/node_modules
+dist
+web/dist
+
+# runtime data
+data
+
+# generated reports
+coverage
+**/coverage
+playwright-report
+test-results
+
+# lockfiles and third-party texts
+package-lock.json
+LICENSE
+

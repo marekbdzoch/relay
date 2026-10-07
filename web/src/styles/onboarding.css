@@ -1,0 +1,361 @@
+/* ---------- first-run setup wizard ---------- */
+
+.onboarding {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 8px;
+  padding: 8px;
+  background: var(--frame-bg);
+  color: var(--text);
+}
+.ob-rail {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 12px;
+  min-height: 0;
+}
+.ob-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 8px 20px;
+  font-size: 17px;
+  font-weight: 700;
+}
+.ob-brand img {
+  border-radius: 10px;
+}
+.ob-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.ob-step {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 48px;
+  padding: 0 14px 0 8px;
+  border-radius: 999px;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text-2);
+  text-align: left;
+}
+.ob-step:hover {
+  background: var(--sb-hover);
+}
+.ob-step.active {
+  background: var(--accent-container);
+  color: var(--on-accent-container);
+}
+.ob-step-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-2);
+  flex-shrink: 0;
+}
+.ob-step.active .ob-step-icon {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.ob-step.done .ob-step-icon {
+  background: var(--success);
+  color: #fff;
+}
+.ob-skip {
+  margin-top: auto;
+  align-self: flex-start;
+}
+.ob-main {
+  min-height: 0;
+  overflow-y: auto;
+  background: var(--bg);
+  border-radius: var(--radius);
+}
+.ob-content {
+  position: relative;
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 56px 40px 40px;
+}
+.ob-content h1 {
+  font-size: 34px;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 12px;
+}
+.ob-content h2 {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0 0 10px;
+}
+.ob-content h3 {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 28px 0 10px;
+}
+.ob-lead {
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--text-2);
+  margin: 0 0 24px;
+  max-width: 640px;
+}
+.ob-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ob-list li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border-radius: 18px;
+  background: var(--surface-1);
+  font-size: 15px;
+}
+.ob-list li svg {
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.ob-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 32px;
+}
+.ob-back {
+  position: absolute;
+  top: 16px;
+  left: 32px;
+}
+.ob-card {
+  padding: 20px;
+  border-radius: 20px;
+  background: var(--surface-1);
+}
+.ob-card .invite-link {
+  display: flex;
+  gap: 8px;
+}
+.ob-card .invite-link input {
+  flex: 1;
+}
+.ob-done-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-container);
+  color: var(--on-accent-container);
+  margin-bottom: 20px;
+}
+
+/* channels step */
+.ob-templates {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+}
+.ob-template {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  text-align: left;
+  font-size: 13px;
+  color: var(--text-2);
+  transition: border-color 0.15s, background 0.15s;
+}
+.ob-template b {
+  font-size: 14.5px;
+  color: var(--text);
+}
+.ob-template:hover {
+  background: var(--bg-hover);
+}
+.ob-template.active {
+  border-color: transparent;
+  background: var(--accent-container);
+  color: var(--on-accent-container);
+}
+.ob-template.active b {
+  color: var(--on-accent-container);
+}
+.ob-sections {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.ob-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 6px 0 4px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  font-weight: 600;
+  font-size: 14px;
+}
+.ob-chip-emoji {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.ob-chip-emoji:hover,
+.ob-chip-x:hover {
+  background: var(--bg-hover);
+}
+.ob-chip-x {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-2);
+}
+.ob-add-section {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+.ob-add-section input {
+  height: 36px;
+  width: 170px;
+  border-radius: 999px;
+  padding: 0 14px;
+}
+.ob-channels {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.ob-channel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 10px 10px 14px;
+  border-radius: 18px;
+  background: var(--surface-1);
+}
+.ob-channel-icon {
+  color: var(--text-2);
+  display: flex;
+}
+.ob-channel-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.ob-channel-main input {
+  height: 32px;
+  border: none;
+  background: transparent;
+  padding: 0 6px;
+  border-radius: 10px;
+}
+.ob-channel-main input:focus {
+  background: var(--bg);
+}
+.ob-channel-name {
+  font-weight: 600;
+  font-size: 15px;
+}
+.ob-channel-desc {
+  font-size: 13px;
+  color: var(--text-2);
+}
+.ob-channel select {
+  height: 34px;
+  max-width: 150px;
+  border-radius: 999px;
+}
+.ob-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  color: var(--text-2);
+  white-space: nowrap;
+}
+.ob-add-channel {
+  align-self: flex-start;
+}
+
+@media (max-width: 900px) {
+  .onboarding {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr);
+    padding: 0;
+    gap: 0;
+  }
+  .ob-rail {
+    padding: 10px 12px 6px;
+  }
+  .ob-brand {
+    padding-bottom: 8px;
+  }
+  .ob-steps {
+    flex-direction: row;
+    overflow-x: auto;
+  }
+  .ob-step {
+    height: 40px;
+    white-space: nowrap;
+  }
+  .ob-skip {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+  }
+  .ob-main {
+    border-radius: 24px 24px 0 0;
+  }
+  .ob-content {
+    padding: 48px 16px 32px;
+  }
+  .ob-back {
+    left: 12px;
+    top: 10px;
+  }
+  .ob-content h1 {
+    font-size: 26px;
+  }
+  .ob-channel {
+    flex-wrap: wrap;
+  }
+  .ob-channel-main {
+    flex-basis: calc(100% - 40px);
+  }
+}
