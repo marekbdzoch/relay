@@ -42,7 +42,7 @@ import {
   togglePin,
   toggleSaved,
 } from '../actions.ts';
-import { Emoji, Mrkdwn } from '../lib/mrkdwn.tsx';
+import { Emoji, Mrkdwn, toPlainText } from '../lib/mrkdwn.tsx';
 import { isEmojiOnly, DEFAULT_QUICK_REACTIONS, nativeFor } from '../lib/emoji.ts';
 import { fileKind, formatDateTime, formatSize, formatTime, timeAgo } from '../lib/format.ts';
 import { decodeMessage, encodeMessage } from '../lib/composerText.ts';
@@ -537,7 +537,7 @@ export const MessageItem = memo(function MessageItem({
         <div className="msg-label thread-broadcast">
           {t('replied to a thread:')}{' '}
           <button className="link" onClick={() => openThread(rootPreview.id, m.channelId)}>
-            {rootPreview.text.slice(0, 80) || t('View thread')}
+            {toPlainText(rootPreview.text).replace(/[*_~`]/g, '').slice(0, 80) || t('View thread')}
           </button>
         </div>
       )}

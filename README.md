@@ -7,7 +7,9 @@
 **Your team's chat, on your own server.** An open-source alternative to Slack that you can run yourself in a few minutes.
 It has the channels, threads, DMs and calls your team already knows, plus AI teammates. All your data stays with you.
 
-[![Deploy on Railway](https://railway.com/button.svg)](RAILWAY_TEMPLATE_URL)
+**[▶ Try the live demo](https://relay-production-e8b7.up.railway.app)** – no sign-up, resets every 24 hours
+
+[![Deploy on Railway](https://railway.com/button.svg)](docs/deployment.md#railway)
 &nbsp;
 [![CI](https://github.com/marekbdzoch/relay/actions/workflows/ci.yml/badge.svg)](https://github.com/marekbdzoch/relay/actions/workflows/ci.yml)
 [![License: AGPL v3](https://img.shields.io/badge/license-AGPL--3.0-6750a4)](LICENSE)

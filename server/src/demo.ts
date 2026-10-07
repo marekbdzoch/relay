@@ -20,9 +20,14 @@ import { applyDefaultSections } from './routes/onboarding.ts';
  */
 
 const SEEDED_AT = 'demo.seededAt';
+const SEED_VERSION_KEY = 'demo.seedVersion';
+/** bump when the sample content changes: running demos re-seed on the next start */
+const SEED_VERSION = '2';
 const MIN = 60_000;
 const HOUR = 60 * MIN;
-const DAY = 24 * HOUR;
+// ages of the sample messages, in minutes
+const H = 60;
+const D = 24 * H;
 
 export function demoInfo() {
   if (!config.demo) return null;
@@ -107,46 +112,46 @@ const CHANNELS: ChannelDef[] = [
 type Line = [string, string, string, number, { id?: string; thread?: string; reactions?: [string, string[]][]; pin?: boolean; broadcast?: boolean }?];
 
 const LINES: Line[] = [
-  ['announcements', 'alex', ':wave: *Welcome to Northwind Labs!* This is a demo of <https://github.com/marekbdzoch/relay|Relay>, an open-source Slack alternative you can host yourself.\n\nLook around: channels on the left, threads, reactions, search (try `in:#engineering`), the voice room in each channel, and AI teammates under *Agents*.', 3 * DAY, { reactions: [['tada', ['sarah', 'tomas', 'priya', 'marcus']], ['heart', ['elena']]], pin: true }],
-  ['announcements', 'sarah', 'The new website goes live on *Friday at 10:00* :rocket: Follow along in <#website-relaunch>.', 26 * HOUR, { reactions: [['rocket', ['alex', 'tomas', 'priya', 'elena']], ['eyes', ['marcus']]] }],
+  ['announcements', 'alex', ':wave: *Welcome to Northwind Labs!* This is a demo of <https://github.com/marekbdzoch/relay|Relay>, an open-source Slack alternative you can host yourself.\n\nLook around: channels on the left, threads, reactions, search (try `in:#engineering`), the voice room in each channel, and AI teammates under *Agents*.', 3 * D, { reactions: [['tada', ['sarah', 'tomas', 'priya', 'marcus']], ['heart', ['elena']]], pin: true }],
+  ['announcements', 'sarah', 'The new website goes live on *Friday at 10:00* :rocket: Follow along in <#website-relaunch>.', 26 * H, { reactions: [['rocket', ['alex', 'tomas', 'priya', 'elena']], ['eyes', ['marcus']]] }],
 
-  ['general', 'alex', 'Morning all! Reminder: all-hands moves to *Thursday 15:00* this week.', 2 * DAY + 3 * HOUR, { reactions: [['+1', ['sarah', 'marcus', 'priya']]] }],
-  ['general', 'marcus', 'Signed a 2-year deal with Contoso today :handshake: Thanks <@tomas> for the help with the security questionnaire!', 30 * HOUR, { id: 'deal', reactions: [['tada', ['alex', 'sarah', 'elena', 'priya']], ['muscle', ['tomas']]] }],
-  ['general', 'tomas', 'Happy to help! Their SSO setup is a bit special, I left notes in the account doc.', 29 * HOUR, { thread: 'deal' }],
-  ['general', 'sarah', 'Huge! :clap: Can we turn this into a customer story for the new website?', 28 * HOUR, { thread: 'deal' }],
-  ['general', 'elena', 'Yes! I’ll reach out to their marketing team next week.', 27 * HOUR, { thread: 'deal', broadcast: true }],
-  ['general', 'priya', 'Who’s up for lunch at the new ramen place? :ramen:', 3 * HOUR, { reactions: [['raised_hand', ['marcus', 'tomas']]] }],
+  ['general', 'alex', 'Morning all! Reminder: all-hands moves to *Thursday 15:00* this week.', 2 * D + 3 * H, { reactions: [['+1', ['sarah', 'marcus', 'priya']]] }],
+  ['general', 'marcus', 'Signed a 2-year deal with Contoso today :handshake: Thanks <@tomas> for the help with the security questionnaire!', 30 * H, { id: 'deal', reactions: [['tada', ['alex', 'sarah', 'elena', 'priya']], ['muscle', ['tomas']]] }],
+  ['general', 'tomas', 'Happy to help! Their SSO setup is a bit special, I left notes in the account doc.', 29 * H, { thread: 'deal' }],
+  ['general', 'sarah', 'Huge! :clap: Can we turn this into a customer story for the new website?', 28 * H, { thread: 'deal' }],
+  ['general', 'elena', 'Yes! I’ll reach out to their marketing team next week.', 27 * H, { thread: 'deal', broadcast: true }],
+  ['general', 'priya', 'Who’s up for lunch at the new ramen place? :ramen:', 3 * H, { reactions: [['raised_hand', ['marcus', 'tomas']]] }],
 
-  ['random', 'tomas', 'My cat just walked over the keyboard and pushed a commit. It passed CI. :cat:', 2 * DAY, { reactions: [['joy', ['priya', 'sarah', 'marcus', 'alex']], ['100', ['elena']]] }],
-  ['random', 'priya', 'Hire the cat.', 2 * DAY - 10, { reactions: [['+1', ['tomas', 'sarah']]] }],
-  ['random', 'marcus', 'Friday playlist thread :musical_note: drop your favourite focus song', 5 * HOUR, { id: 'music' }],
-  ['random', 'sarah', 'Anything by Tycho, always.', 4 * HOUR, { thread: 'music' }],
-  ['random', 'tomas', 'Lofi beats to fix bugs to :headphones:', 4 * HOUR - 20, { thread: 'music' }],
+  ['random', 'tomas', 'My cat just walked over the keyboard and pushed a commit. It passed CI. :cat:', 2 * D, { reactions: [['joy', ['priya', 'sarah', 'marcus', 'alex']], ['100', ['elena']]] }],
+  ['random', 'priya', 'Hire the cat.', 2 * D - 10, { reactions: [['+1', ['tomas', 'sarah']]] }],
+  ['random', 'marcus', 'Friday playlist thread :musical_note: drop your favourite focus song', 5 * H, { id: 'music' }],
+  ['random', 'sarah', 'Anything by Tycho, always.', 4 * H, { thread: 'music' }],
+  ['random', 'tomas', 'Lofi beats to fix bugs to :headphones:', 4 * H - 20, { thread: 'music' }],
 
-  ['marketing', 'elena', 'Launch checklist for Friday:\n• Blog post – _draft ready_\n• Newsletter – scheduled 10:30\n• Social posts – <@mia> is drafting them\n• Press kit – needs final screenshots from <@priya>', 20 * HOUR, { id: 'launch', pin: true, reactions: [['white_check_mark', ['sarah']]] }],
-  ['marketing', 'mia', 'Here are three options for the LinkedIn post:\n\n1. *“We rebuilt our website from scratch – faster, clearer, and finally fun to use.”*\n2. *“New look, same Northwind. Take a tour of our new site.”*\n3. *“Our biggest website update in five years is live. Here’s what changed.”*\n\nI’d go with 1 for engagement. Want me to draft the X/Twitter versions too?', 19 * HOUR, { thread: 'launch' }],
-  ['marketing', 'elena', 'Love #1. Yes please, and keep them under 200 characters.', 18 * HOUR, { thread: 'launch' }],
-  ['marketing', 'priya', 'Screenshots are in the press kit folder now :frame_with_picture:', 6 * HOUR, { thread: 'launch' }],
+  ['marketing', 'elena', 'Launch checklist for Friday:\n• Blog post – _draft ready_\n• Newsletter – scheduled 10:30\n• Social posts – <@mia> is drafting them\n• Press kit – needs final screenshots from <@priya>', 20 * H, { id: 'launch', pin: true, reactions: [['white_check_mark', ['sarah']]] }],
+  ['marketing', 'mia', 'Here are three options for the LinkedIn post:\n\n1. *“We rebuilt our website from scratch – faster, clearer, and finally fun to use.”*\n2. *“New look, same Northwind. Take a tour of our new site.”*\n3. *“Our biggest website update in five years is live. Here’s what changed.”*\n\nI’d go with 1 for engagement. Want me to draft the X/Twitter versions too?', 19 * H, { thread: 'launch' }],
+  ['marketing', 'elena', 'Love #1. Yes please, and keep them under 200 characters.', 18 * H, { thread: 'launch' }],
+  ['marketing', 'priya', 'Screenshots are in the press kit folder now :frame_with_picture:', 6 * H, { thread: 'launch' }],
 
-  ['engineering', 'tomas', 'Deploy of `v2.4.0` finished :white_check_mark:\n```\n✔ migrations   3 applied\n✔ health check  200 OK (41 ms)\n✔ rollout       100%\n```', 22 * HOUR, { reactions: [['rocket', ['sarah', 'alex']]] }],
-  ['engineering', 'sarah', '<@dev> can you summarise what went into 2.4 for the changelog?', 21 * HOUR, { id: 'changelog' }],
-  ['engineering', 'dev', 'Sure! *Release 2.4.0*\n• New: dark mode for the dashboard\n• Faster search (p95 down from 480 ms to 120 ms)\n• Fixed: CSV export lost the last row\n• Fixed: timezone shown wrong for users in UTC+13', 21 * HOUR - 2, { thread: 'changelog', reactions: [['heart', ['sarah']]] }],
-  ['engineering', 'tomas', 'Heads up: I’m starting the database upgrade at 18:00, ~5 minutes of read-only mode.', 2 * HOUR, { reactions: [['+1', ['sarah', 'alex']], ['pray', ['marcus']]] }],
+  ['engineering', 'tomas', 'Deploy of `v2.4.0` finished :white_check_mark:\n```\n✔ migrations   3 applied\n✔ health check  200 OK (41 ms)\n✔ rollout       100%\n```', 22 * H, { reactions: [['rocket', ['sarah', 'alex']]] }],
+  ['engineering', 'sarah', '<@dev> can you summarise what went into 2.4 for the changelog?', 21 * H, { id: 'changelog' }],
+  ['engineering', 'dev', 'Sure! *Release 2.4.0*\n• New: dark mode for the dashboard\n• Faster search (p95 down from 480 ms to 120 ms)\n• Fixed: CSV export lost the last row\n• Fixed: timezone shown wrong for users in UTC+13', 21 * H - 2, { thread: 'changelog', reactions: [['heart', ['sarah']]] }],
+  ['engineering', 'tomas', 'Heads up: I’m starting the database upgrade at 18:00, ~5 minutes of read-only mode.', 2 * H, { reactions: [['+1', ['sarah', 'alex']], ['pray', ['marcus']]] }],
 
-  ['design', 'priya', 'New homepage hero – feedback welcome :art: The idea is a calm gradient in our brand violet with one clear call to action.', 2 * DAY + HOUR, { id: 'hero', reactions: [['fire', ['sarah', 'elena', 'alex']]] }],
-  ['design', 'sarah', 'Much cleaner than before. Could the CTA say “Start free” instead of “Get started”?', 2 * DAY, { thread: 'hero' }],
-  ['design', 'elena', '+1 to “Start free”, it tested better in the last campaign.', 2 * DAY - 30, { thread: 'hero' }],
-  ['design', 'priya', 'Done, updated in Figma :sparkles:', 47 * HOUR, { thread: 'hero', reactions: [['raised_hands', ['sarah']]] }],
+  ['design', 'priya', 'New homepage hero – feedback welcome :art: The idea is a calm gradient in our brand violet with one clear call to action.', 2 * D + H, { id: 'hero', reactions: [['fire', ['sarah', 'elena', 'alex']]] }],
+  ['design', 'sarah', 'Much cleaner than before. Could the CTA say “Start free” instead of “Get started”?', 2 * D, { thread: 'hero' }],
+  ['design', 'elena', '+1 to “Start free”, it tested better in the last campaign.', 2 * D - 30, { thread: 'hero' }],
+  ['design', 'priya', 'Done, updated in Figma :sparkles:', 47 * H, { thread: 'hero', reactions: [['raised_hands', ['sarah']]] }],
 
-  ['website-relaunch', 'sarah', 'Launch plan for Friday :calendar:\n1. 09:30 – final smoke test (<@tomas>)\n2. 10:00 – DNS switch\n3. 10:15 – announcement + newsletter (<@elena>)\n4. 11:00 – retro in the voice room :headphones:', 25 * HOUR, { pin: true, reactions: [['white_check_mark', ['tomas', 'elena', 'priya']]] }],
-  ['website-relaunch', 'tomas', 'Staging is ready for a last look: https://staging.northwind.example', 8 * HOUR],
-  ['website-relaunch', 'priya', 'Found one thing: the pricing toggle overlaps on small phones. Fix is up for review.', 7 * HOUR, { id: 'bug' }],
-  ['website-relaunch', 'tomas', 'Merged, thanks! :pray:', 6 * HOUR, { thread: 'bug' }],
+  ['website-relaunch', 'sarah', 'Launch plan for Friday :calendar:\n1. 09:30 – final smoke test (<@tomas>)\n2. 10:00 – DNS switch\n3. 10:15 – announcement + newsletter (<@elena>)\n4. 11:00 – retro in the voice room :headphones:', 25 * H, { pin: true, reactions: [['white_check_mark', ['tomas', 'elena', 'priya']]] }],
+  ['website-relaunch', 'tomas', 'Staging is ready for a last look: https://staging.northwind.example', 8 * H],
+  ['website-relaunch', 'priya', 'Found one thing: the pricing toggle overlaps on small phones. Fix is up for review.', 7 * H, { id: 'bug' }],
+  ['website-relaunch', 'tomas', 'Merged, thanks! :pray:', 6 * H, { thread: 'bug' }],
   ['website-relaunch', 'alex', 'Great work everyone. Let’s use the channel voice room for the launch – just drop in at 10:00.', 90, { reactions: [['headphones', ['sarah', 'tomas', 'priya']]] }],
 
-  ['q4-planning', 'sarah', 'Kicking off Q4 planning. Top themes so far: self-serve onboarding, integrations, mobile.', 3 * DAY - HOUR],
+  ['q4-planning', 'sarah', 'Kicking off Q4 planning. Top themes so far: self-serve onboarding, integrations, mobile.', 3 * D - H],
 
-  ['leadership', 'alex', 'Budget review moved to next Wednesday.', 2 * DAY],
+  ['leadership', 'alex', 'Budget review moved to next Wednesday.', 2 * D],
 ];
 
 // ---------------------------------------------------------------------------
@@ -160,7 +165,7 @@ export async function seedDemo() {
   const passwordHash = await hashPassword(randomPassword());
 
   tx(() => {
-    run('INSERT OR REPLACE INTO workspace (id, name, created_at) VALUES (1, ?, ?)', 'Northwind Labs', t0 - 30 * DAY);
+    run('INSERT OR REPLACE INTO workspace (id, name, created_at) VALUES (1, ?, ?)', 'Northwind Labs', t0 - 30 * 24 * HOUR);
     for (const p of PEOPLE) {
       const id = newId('U');
       ids[p.key] = id;
@@ -179,7 +184,7 @@ export async function seedDemo() {
         p.status?.[1] ?? '',
         p.agent ? 1 : 0,
         p.agent ? 'agent' : null,
-        t0 - 30 * DAY,
+        t0 - 30 * 24 * HOUR,
       );
       if (p.agent) {
         run(
@@ -191,8 +196,8 @@ export async function seedDemo() {
           p.agent.instructions,
           p.agent.emoji,
           ids.alex,
-          t0 - 20 * DAY,
-          t0 - 20 * DAY,
+          t0 - 20 * 24 * HOUR,
+          t0 - 20 * 24 * HOUR,
         );
       }
     }
@@ -209,11 +214,11 @@ export async function seedDemo() {
         c.topic ?? '',
         c.description,
         ids.alex,
-        t0 - 30 * DAY,
+        t0 - 30 * 24 * HOUR,
         c.everyone ? 1 : 0,
       );
       const members = c.members ?? PEOPLE.filter((p) => !p.agent || ['marketing', 'engineering', 'general'].includes(c.name)).map((p) => p.key);
-      for (const m of members) run('INSERT OR IGNORE INTO channel_members (channel_id, user_id, joined_at, last_read) VALUES (?, ?, ?, 0)', id, ids[m], t0 - 30 * DAY);
+      for (const m of members) run('INSERT OR IGNORE INTO channel_members (channel_id, user_id, joined_at, last_read) VALUES (?, ?, ?, 0)', id, ids[m], t0 - 30 * 24 * HOUR);
     }
 
     // messages, oldest first so ids follow time
@@ -257,6 +262,7 @@ export async function seedDemo() {
     setSetting('demo.channelIds', JSON.stringify(channelIds));
     setSetting('demo.userIds', JSON.stringify(ids));
     setSetting(SEEDED_AT, String(t0));
+    setSetting(SEED_VERSION_KEY, SEED_VERSION);
   });
 }
 
@@ -285,6 +291,7 @@ export async function resetDemo() {
 export async function initDemo() {
   if (!config.demo) return;
   if (!get('SELECT 1 FROM users LIMIT 1')) await seedDemo();
+  else if (getSetting(SEED_VERSION_KEY) !== SEED_VERSION) await resetDemo();
   const check = async () => {
     const info = demoInfo();
     if (info && Date.now() >= info.nextResetAt) await resetDemo().catch((e) => console.error('demo reset failed', e));

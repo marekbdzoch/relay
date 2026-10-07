@@ -48,6 +48,8 @@ test('visitors get a throw-away account with sample content in one click', async
   const list = msgs.messages ?? msgs;
   assert.ok(list.some((m: any) => m.replyCount >= 3));
   assert.ok(list.some((m: any) => m.reactions.length > 0));
+  // the sample conversation happened over the last few days
+  for (const m of list) assert.ok(m.createdAt > Date.now() - 4 * 86_400_000 && m.createdAt <= Date.now(), new Date(m.createdAt).toISOString());
 });
 
 test('sign-ups, invites, password changes and setup are disabled', async () => {
