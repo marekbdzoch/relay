@@ -71,7 +71,7 @@ After you create the workspace, Relay walks you through these steps. You can ski
 | **Channels and sections** | Pick a starting point (*small team*, *company with departments*, *agency* or *from scratch*) and adjust it. Rename channels, choose which are private, decide which ones everyone joins automatically, and group them into sections that appear in everyone's sidebar. |
 | **AI teammates** | Choose an AI provider and paste its API key. Relay tests the key and lists the available models. You pay the provider directly, and only for what your agents use. |
 | **Import from Slack** | Upload your Slack export (a `.zip` file). Channels, messages, threads, reactions, pins and files arrive with their original dates. See [Moving from Slack](#moving-from-slack). |
-| **Invite your team** | Create an invite link and send it however you like. Relay doesn't send e-mails itself. |
+| **Invite your team** | Create an invite link and send it however you like. Relay doesn't send e-mails itself. If you imported from Slack, create personal invites with each colleague's e-mail address, so they get their imported account back. |
 
 ## Moving from Slack
 
@@ -80,7 +80,7 @@ After you create the workspace, Relay walks you through these steps. You can ski
    - Business+ and Enterprise plans can also export private channels and DMs.
 2. **Import into Relay.** Use the setup guide, or later **workspace menu → Workspace settings → Import from Slack**. Upload the `.zip`.
    - Importing the same export again doesn't create duplicates, so you can also import a newer export later.
-3. **Invite your colleagues** with an invite link. When someone signs up with the **same e-mail address** they used in Slack, they get their imported account back. Their name, avatar and full message history stay connected to them.
+3. **Invite your colleagues with personal invites.** Go to **workspace menu → Invite people** and enter the e-mail addresses they used in Slack. Each person gets their own link. When they sign up with it, they take over their imported account, with their name, avatar and full message history. For safety, a general invite link can't take over an imported account.
 4. **Not everyone switching on the same day?** The [Slack bridge](docs/slack-bridge.md) keeps chosen channels in sync both ways. Your team uses Relay, partners keep using Slack, and nobody pays for it.
 
 More details: [docs/slack-import.md](docs/slack-import.md).

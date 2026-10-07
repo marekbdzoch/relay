@@ -70,7 +70,9 @@ function Guide() {
       <p className="slack-import-note">
         <Info size={16} />
         <span>
-          {t('Only workspace owners and admins can export. Free and Pro plans export public channels only; Business+ and Enterprise Grid can also include private channels and direct messages.')}{' '}
+          {t(
+            'Only workspace owners and admins can export. Free and Pro plans export public channels only; Business+ and Enterprise Grid can also include private channels and direct messages.',
+          )}{' '}
           <a href={HELP_URL} target="_blank" rel="noreferrer">
             {t('Slack help: Export your workspace data')}
           </a>
@@ -189,17 +191,15 @@ export function SlackImportPanel({ onDone }: { onDone?: (job: SlackImportJob) =>
       <div className="slack-import">
         <div className={`slack-import-card slack-import-status ${job.state}`}>
           <div className="slack-import-status-head">
-            {job.state === 'done' ? (
-              <CircleCheck size={28} />
-            ) : job.state === 'error' ? (
-              <AlertTriangle size={28} />
-            ) : (
-              <Spinner size={24} />
-            )}
+            {job.state === 'done' ? <CircleCheck size={28} /> : job.state === 'error' ? <AlertTriangle size={28} /> : <Spinner size={24} />}
             <div>
               <h4>{job.state === 'done' ? t('Import finished') : job.state === 'error' ? t('The import failed') : t('Importing from Slack…')}</h4>
               <p className="muted-text">
-                {job.state === 'error' ? job.error : job.state === 'done' ? t('Your Slack history is now here. Invite your colleagues so they can claim their accounts.') : phaseLabel(job.phase)}
+                {job.state === 'error'
+                  ? job.error
+                  : job.state === 'done'
+                    ? t('Your Slack history is now here. Invite your colleagues so they can claim their accounts.')
+                    : phaseLabel(job.phase)}
               </p>
             </div>
           </div>
@@ -296,7 +296,12 @@ export function SlackImportPanel({ onDone }: { onDone?: (job: SlackImportJob) =>
 
       <div className="slack-import-card slack-import-options">
         <Toggle checked={importFiles} onChange={setImportFiles} disabled={uploading !== null} label={t('Copy files and profile photos from Slack')} />
-        <Toggle checked={importPrivate} onChange={setImportPrivate} disabled={uploading !== null} label={t('Import private channels (if the export includes them)')} />
+        <Toggle
+          checked={importPrivate}
+          onChange={setImportPrivate}
+          disabled={uploading !== null}
+          label={t('Import private channels (if the export includes them)')}
+        />
         <Toggle checked={importDms} onChange={setImportDms} disabled={uploading !== null} label={t('Import direct messages (if the export includes them)')} />
         <p className="field-help">{t('Importing the same export again is safe: nothing is duplicated, newer messages are added.')}</p>
       </div>

@@ -71,7 +71,9 @@
   color: var(--text);
   text-align: center;
   cursor: pointer;
-  transition: background 0.1s, border-color 0.1s;
+  transition:
+    background 0.1s,
+    border-color 0.1s;
 }
 .slack-import-drop > .icon {
   color: var(--accent);

@@ -359,3 +359,10 @@
     flex-basis: calc(100% - 40px);
   }
 }
+.ob-card-gap {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}

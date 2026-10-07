@@ -84,15 +84,39 @@ function exportFiles(extra: Record<string, string> = {}) {
       name: 'bob',
       real_name: 'Bob Builder',
       tz: 'America/New_York',
-      profile: { real_name: 'Bob Builder', display_name: 'bobby', title: 'Engineer', email: 'bob@example.com', image_192: `${base}/avatar.png`, is_custom_image: true },
+      profile: {
+        real_name: 'Bob Builder',
+        display_name: 'bobby',
+        title: 'Engineer',
+        email: 'bob@example.com',
+        image_192: `${base}/avatar.png`,
+        is_custom_image: true,
+      },
     },
     { id: 'U004', name: 'dan', deleted: true, real_name: 'Dan Departed', profile: { real_name: 'Dan Departed', email: 'dan@example.com' } },
     { id: 'U005', name: 'gina', is_restricted: true, real_name: 'Gina Guest', profile: { real_name: 'Gina Guest', email: 'gina@example.com' } },
     { id: 'UBOT1', name: 'github', is_bot: true, real_name: 'GitHub', profile: { real_name: 'GitHub' } },
   ];
   const channels = [
-    { id: 'C001', name: 'company', is_general: true, created: T0 - 1000, creator: 'U001', members: ['U001', 'U002', 'U003', 'U004', 'U005'], topic: { value: '' }, purpose: { value: 'Everyone' } },
-    { id: 'C002', name: 'dev', created: T0 - 900, creator: 'U003', members: ['U001', 'U003'], topic: { value: 'Ship it' }, purpose: { value: 'Development &amp; ops' } },
+    {
+      id: 'C001',
+      name: 'company',
+      is_general: true,
+      created: T0 - 1000,
+      creator: 'U001',
+      members: ['U001', 'U002', 'U003', 'U004', 'U005'],
+      topic: { value: '' },
+      purpose: { value: 'Everyone' },
+    },
+    {
+      id: 'C002',
+      name: 'dev',
+      created: T0 - 900,
+      creator: 'U003',
+      members: ['U001', 'U003'],
+      topic: { value: 'Ship it' },
+      purpose: { value: 'Development &amp; ops' },
+    },
     { id: 'C003', name: 'old-stuff', created: T0 - 800, creator: 'U001', is_archived: true, members: ['U001'] },
   ];
   const groups = [{ id: 'G001', name: 'secret', created: T0 - 700, creator: 'U002', members: ['U002', 'U003'] }];
@@ -126,14 +150,32 @@ function exportFiles(extra: Record<string, string> = {}) {
       text: 'a picture',
       ts: ts(80),
       edited: { user: 'U001', ts: ts(85) },
-      files: [{ id: 'F001', name: 'pic.png', title: 'pic', mimetype: 'image/png', size: PIC.length, url_private_download: `${base}/pic.png`, url_private: `${base}/pic.png` }],
+      files: [
+        {
+          id: 'F001',
+          name: 'pic.png',
+          title: 'pic',
+          mimetype: 'image/png',
+          size: PIC.length,
+          url_private_download: `${base}/pic.png`,
+          url_private: `${base}/pic.png`,
+        },
+      ],
     },
     {
       type: 'message',
       user: 'U001',
       text: 'broken file',
       ts: ts(90),
-      files: [{ id: 'F002', name: 'gone.pdf', mimetype: 'application/pdf', url_private_download: `${base}/missing.pdf`, permalink: 'https://acme.slack.com/files/U001/F002/gone.pdf' }],
+      files: [
+        {
+          id: 'F002',
+          name: 'gone.pdf',
+          mimetype: 'application/pdf',
+          url_private_download: `${base}/missing.pdf`,
+          permalink: 'https://acme.slack.com/files/U001/F002/gone.pdf',
+        },
+      ],
     },
     { type: 'message', subtype: 'channel_topic', user: 'U001', text: 'set the topic', topic: 'New topic', ts: ts(100) },
     { type: 'message', subtype: 'bot_add', user: 'U001', text: 'added an integration', ts: ts(110) },
@@ -319,7 +361,10 @@ describe('first import', () => {
     assert.equal(db.get<any>("SELECT archived FROM channels WHERE name = 'old-stuff'").archived, 1);
     const secret = db.get<any>("SELECT * FROM channels WHERE name = 'secret'");
     assert.equal(secret.kind, 'private');
-    const secretMembers = db.all<{ user_id: string }>('SELECT user_id FROM channel_members WHERE channel_id = ?', secret.id).map((r) => r.user_id).sort();
+    const secretMembers = db
+      .all<{ user_id: string }>('SELECT user_id FROM channel_members WHERE channel_id = ?', secret.id)
+      .map((r) => r.user_id)
+      .sort();
     assert.deepEqual(secretMembers, [alice.me.id, userByEmail('bob@example.com').id].sort());
     // deactivated people are not added to channels
     assert.equal(count('SELECT COUNT(*) AS n FROM channel_members WHERE channel_id = ? AND user_id = ?', gid, userByEmail('dan@example.com').id), 0);

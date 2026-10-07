@@ -3,7 +3,7 @@ import type { Invite, SidebarSection, Workspace } from '../../../shared/types.ts
 import { POST } from '../api.ts';
 import { set, toast, useStore } from '../store.ts';
 import { t } from '../i18n.ts';
-import { fail } from '../actions.ts';
+import { fail, openModal } from '../actions.ts';
 import { lazyNamed } from '../lib/lazy.ts';
 import { useOnboarding } from '../lib/onboarding.ts';
 import { ArrowLeft, ArrowRight, Bot, Check, Copy, Hash, Link2, Lock, Plus, Trash2, Upload, Users, X } from '../components/icons.tsx';
@@ -265,7 +265,14 @@ function InviteStep() {
             <Link2 size={16} /> {t('Create invite link')}
           </button>
         )}
-        <p className="field-help">{t('The link works for 30 days and can be used many times. Colleagues imported from Slack get their history back by signing up with the same e-mail address.')}</p>
+        <p className="field-help">{t('The link works for 30 days and can be used many times.')}</p>
+      </div>
+      <div className="ob-card ob-card-gap">
+        <b>{t('Moved from Slack?')}</b>
+        <p className="field-help">{t('Colleagues imported from Slack get their account and history back through a personal invite: enter their Slack e-mail addresses and send each person their own link.')}</p>
+        <button className="btn" onClick={() => openModal({ type: 'invite' })}>
+          <Users size={15} /> {t('Create personal invites')}
+        </button>
       </div>
     </>
   );

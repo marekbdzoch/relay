@@ -276,7 +276,18 @@ const SYSTEM_SUBTYPES: Record<string, string> = {
   channel_unarchive: 'unarchive',
   group_unarchive: 'unarchive',
 };
-const CONTENT_SUBTYPES = new Set(['', 'bot_message', 'me_message', 'thread_broadcast', 'reply_broadcast', 'file_share', 'file_comment', 'slackbot_response', 'tombstone', 'share']);
+const CONTENT_SUBTYPES = new Set([
+  '',
+  'bot_message',
+  'me_message',
+  'thread_broadcast',
+  'reply_broadcast',
+  'file_share',
+  'file_comment',
+  'slackbot_response',
+  'tombstone',
+  'share',
+]);
 const EMOJI_ALIASES: Record<string, string> = { thumbsup: '+1', thumbsdown: '-1', simple_smile: 'slightly_smiling_face' };
 
 /** Slack ts ("1609459200.000200") as integer microseconds – exact ordering key. */
@@ -341,7 +352,11 @@ async function download(url: string, maxBytes: number): Promise<{ buf: Buffer; t
 }
 
 function saveBuffer(subdir: string, name: string, buf: Buffer) {
-  const ext = path.extname(name || '').toLowerCase().replace(/[^.a-z0-9]/g, '').slice(0, 10);
+  const ext = path
+    .extname(name || '')
+    .toLowerCase()
+    .replace(/[^.a-z0-9]/g, '')
+    .slice(0, 10);
   fs.mkdirSync(path.join(config.uploadsDir, subdir), { recursive: true });
   const rel = path.join(subdir, `${Date.now().toString(36)}${randomToken(9)}${ext}`);
   fs.writeFileSync(absPath(rel), buf);
@@ -382,11 +397,15 @@ class Importer {
   // prepared statements (hot path)
   st = {
     mapGet: db.prepare('SELECT local_id FROM import_map WHERE source = ? AND kind = ? AND external_id = ?'),
-    mapSet: db.prepare('INSERT INTO import_map (source, kind, external_id, local_id) VALUES (?, ?, ?, ?) ON CONFLICT(source, kind, external_id) DO UPDATE SET local_id = excluded.local_id'),
+    mapSet: db.prepare(
+      'INSERT INTO import_map (source, kind, external_id, local_id) VALUES (?, ?, ?, ?) ON CONFLICT(source, kind, external_id) DO UPDATE SET local_id = excluded.local_id',
+    ),
     msgByMap: db.prepare(
       "SELECT m.id FROM import_map im JOIN messages m ON m.id = CAST(im.local_id AS INTEGER) WHERE im.source = 'slack' AND im.kind = 'message' AND im.external_id = ?",
     ),
-    msgByBridge: db.prepare('SELECT m.id FROM slack_messages sm JOIN messages m ON m.id = sm.relay_message_id WHERE sm.slack_channel_id = ? AND sm.slack_ts = ?'),
+    msgByBridge: db.prepare(
+      'SELECT m.id FROM slack_messages sm JOIN messages m ON m.id = sm.relay_message_id WHERE sm.slack_channel_id = ? AND sm.slack_ts = ?',
+    ),
     insertMsg: db.prepare(
       `INSERT INTO messages (channel_id, user_id, text, subtype, thread_root_id, also_in_channel, meta, created_at, edited_at, deleted_at)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -559,7 +578,10 @@ class Importer {
     const mappedBefore = !!row;
     if (localId && !row) {
       // the channel was deleted here since the last import: forget its old messages and start over
-      run("DELETE FROM import_map WHERE source = 'slack' AND kind IN ('message', 'file') AND external_id LIKE ? ESCAPE '\\'", `${c.id.replace(/[%_\\]/g, '\\$&')}:%`);
+      run(
+        "DELETE FROM import_map WHERE source = 'slack' AND kind IN ('message', 'file') AND external_id LIKE ? ESCAPE '\\'",
+        `${c.id.replace(/[%_\\]/g, '\\$&')}:%`,
+      );
       localId = null;
     }
     let isNew = false;
@@ -608,7 +630,14 @@ class Importer {
         localId = get<{ id: string }>('SELECT id FROM channels WHERE dm_key = ?', key)?.id ?? null;
         if (!localId) {
           localId = newId('D');
-          run('INSERT INTO channels (id, kind, created_by, created_at, dm_key) VALUES (?, ?, ?, ?, ?)', localId, unique.length <= 2 ? 'dm' : 'group', creator, created, key);
+          run(
+            'INSERT INTO channels (id, kind, created_by, created_at, dm_key) VALUES (?, ?, ?, ?, ?)',
+            localId,
+            unique.length <= 2 ? 'dm' : 'group',
+            creator,
+            created,
+            key,
+          );
           isNew = true;
         }
       }
@@ -700,7 +729,7 @@ class Importer {
       if (!days.length) continue;
       const cs = new ChannelState(conv);
       // batches of day files: read in parallel, insert in one transaction (few large commits are much faster)
-      for (let i = 0; i < days.length; ) {
+      for (let i = 0; i < days.length;) {
         const batch: yauzl.Entry[] = [];
         let bytes = 0;
         while (i < days.length && batch.length < 64 && bytes < 8 * 1024 * 1024) {
@@ -765,7 +794,12 @@ class Importer {
         text = this.convertText(m.text);
         if (subtype === 'me_message' && text) text = `_${text}_`;
         if (!text.trim() && Array.isArray(m.attachments)) {
-          text = this.convertText(m.attachments.map((a) => a.fallback || a.text || '').filter(Boolean).join('\n'));
+          text = this.convertText(
+            m.attachments
+              .map((a) => a.fallback || a.text || '')
+              .filter(Boolean)
+              .join('\n'),
+          );
         }
         if (botName) sub = 'bot';
       }
@@ -936,7 +970,9 @@ class Importer {
     if (this.opts.importDms) lists.push({ kind: 'dm', list: dms }, { kind: 'group', list: mpims });
     else if (dms.length + mpims.length) this.warn(`${dms.length + mpims.length} direct messages were skipped (option turned off).`);
     if (!groups.length && !dms.length && !mpims.length) {
-      this.warn('This export contains public channels only. Private channels and direct messages are only included in exports from Slack Business+ and Enterprise plans.');
+      this.warn(
+        'This export contains public channels only. Private channels and direct messages are only included in exports from Slack Business+ and Enterprise plans.',
+      );
     }
 
     // conversation folders with their day files, oldest first
@@ -991,7 +1027,11 @@ class ChannelState {
   /** Called before inserting an imported message with time `t`: moves newer local messages out of the way. */
   beforeInsert(t: number) {
     if (this.queue === null) {
-      this.queue = all<{ id: number; created_at: number }>('SELECT id, created_at FROM messages WHERE channel_id = ? AND created_at > ? ORDER BY created_at, id', this.conv.localId, t);
+      this.queue = all<{ id: number; created_at: number }>(
+        'SELECT id, created_at FROM messages WHERE channel_id = ? AND created_at > ? ORDER BY created_at, id',
+        this.conv.localId,
+        t,
+      );
     }
     while (this.queue.length && this.queue[0].created_at <= t) this.relocate(this.queue.shift()!.id);
   }
@@ -1029,12 +1069,21 @@ class ChannelState {
 
     // thread roots: counters + participants follow their (read) threads
     for (const [rootId, info] of this.roots) {
-      const stats = get<{ n: number; last: number | null }>('SELECT COUNT(*) AS n, MAX(created_at) AS last FROM messages WHERE thread_root_id = ? AND deleted_at IS NULL', rootId)!;
+      const stats = get<{ n: number; last: number | null }>(
+        'SELECT COUNT(*) AS n, MAX(created_at) AS last FROM messages WHERE thread_root_id = ? AND deleted_at IS NULL',
+        rootId,
+      )!;
       const users = all<{ user_id: string }>(
         'SELECT user_id FROM messages WHERE thread_root_id = ? AND deleted_at IS NULL AND user_id IS NOT NULL GROUP BY user_id ORDER BY MAX(id)',
         rootId,
       ).map((u) => u.user_id);
-      run('UPDATE messages SET reply_count = ?, last_reply_at = ?, reply_users = ? WHERE id = ?', stats.n, stats.last, JSON.stringify(users.slice(-10)), rootId);
+      run(
+        'UPDATE messages SET reply_count = ?, last_reply_at = ?, reply_users = ? WHERE id = ?',
+        stats.n,
+        stats.last,
+        JSON.stringify(users.slice(-10)),
+        rootId,
+      );
       const rootAuthor = get<{ user_id: string | null }>('SELECT user_id FROM messages WHERE id = ?', rootId)?.user_id;
       if (rootAuthor) info.users.add(rootAuthor);
       for (const uid of info.users) {
