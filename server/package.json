@@ -25,11 +25,11 @@
     "zod": "^4.6.5"
   },
   "devDependencies": {
-    "@types/node": "^26.6.4",
+    "@types/node": "^26.6.5",
     "@types/ws": "^8.18.2",
     "@types/yauzl": "^3.4.0",
     "socket.io-client": "^4.8.4",
     "typescript": "^7.0.2",
-    "ws": "^8.21.3"
+    "ws": "^8.22.0"
   }
 }
