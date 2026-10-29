@@ -1,5 +1,5 @@
 # ---- build the web client ----
-FROM node:24-alpine AS build
+FROM node:26-alpine AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
 COPY server/package.json server/
@@ -10,7 +10,7 @@ COPY web web
 RUN npm -w web run build
 
 # ---- runtime (server runs TypeScript natively on Node 24, no build step) ----
-FROM node:24-alpine
+FROM node:26-alpine
 WORKDIR /app
 ENV NODE_ENV=production \
     DATA_DIR=/data \
